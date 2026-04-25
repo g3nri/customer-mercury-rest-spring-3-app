@@ -20,7 +20,7 @@ public class GetCustomerController {
         String traceId = Utility.getInstance().getUuid();
         PostOffice po = new PostOffice("get.customer.endpoint", traceId, "GET /api/customers/" + id);
         EventEnvelope req = new EventEnvelope()
-                .setTo("customer.get")
+                .setTo("v1.customer.get")
                 .setHeader("id", id.toString());
         return Mono.create(callback ->
                 po.eRequest(req, 10000, false)

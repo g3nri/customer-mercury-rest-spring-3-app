@@ -19,7 +19,7 @@ public class CreateCustomerController {
     public Mono<ResponseEntity<Map<String, Object>>> createCustomer(@RequestBody Map<String, Object> body) {
         String traceId = Utility.getInstance().getUuid();
         PostOffice po = new PostOffice("create.customer.endpoint", traceId, "POST /api/customers");
-        EventEnvelope req = new EventEnvelope().setTo("customer.create").setBody(body);
+        EventEnvelope req = new EventEnvelope().setTo("v1.customer.create").setBody(body);
         return Mono.create(callback ->
                 po.eRequest(req, 10000, false)
                         .thenAccept(response -> {
