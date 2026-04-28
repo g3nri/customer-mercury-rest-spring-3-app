@@ -20,18 +20,17 @@ public class CreateCustomerService implements TypedLambdaFunction<Map<String, Ob
 
     @Override
     public Map<String, Object> handleEvent(Map<String, String> headers, Map<String, Object> input, int instance) throws AppException {
-        String name = input.get("name") == null ? null : input.get("name").toString();
-        String email = input.get("email") == null ? null : input.get("email").toString();
-
-        if (name == null || name.isBlank()) {
+        if (!input.containsKey("name") || String.valueOf(input.get("name")).isBlank()) {
             throw new AppException(400, "name is required");
         }
+        String name = String.valueOf(input.get("name")).trim();
         if (name.length() > 100) {
             throw new AppException(400, "name must not exceed 100 characters");
         }
-        if (email == null || email.isBlank()) {
+        if (!input.containsKey("email") || String.valueOf(input.get("email")).isBlank()) {
             throw new AppException(400, "email is required");
         }
+        String email = String.valueOf(input.get("email")).trim();
         if (!email.matches("^[\\w._%+\\-]+@[\\w.\\-]+\\.[a-zA-Z]{2,}$")) {
             throw new AppException(400, "email format is invalid");
         }
